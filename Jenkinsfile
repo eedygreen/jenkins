@@ -1,13 +1,11 @@
 pipline {
     agent any
     stages {
-        stage('Build') {
+        stage('Upload To AWS') {
             steps {
-                sh 'echo "Hello World"'
-                sh '''
-                    echo "Multiline shell stpes works too"
-                    ls -lah
-                '''
+                withAWS(region:'us-east-1', credentials:"aws-static"){
+                    s3upload(file:'index.html', bucket:'jenkinsstatibucket')
+                }
             }
         }
     }
